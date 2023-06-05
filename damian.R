@@ -102,3 +102,13 @@ summary(mod1) #R^2 0.555, todas las variables altamente significativas.
 envios %>% add_predictions(model=mod1) %>% 
   ggplot(aes(y=pred, x=freight_value))+
   geom_point()
+
+mod2 = lm(data=envios, freight_value ~ distancia_envio * product_volume * product_weight_g)
+summary(mod2)
+
+envios %>% add_predictions(model=mod2) %>% 
+  ggplot(aes(y=pred, x=freight_value))+
+  geom_point()
+
+
+anova(mod1,mod2)
