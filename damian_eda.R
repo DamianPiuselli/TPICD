@@ -47,6 +47,14 @@ orders %>%
   group_by(mes) %>% 
   summarise(numero_compras=n()) %>% 
   ggplot(aes(y=numero_compras, x=mes))+
+  geom_point()+
+  coord_flip()
+
+orders %>% 
+  mutate(mes = cut(order_purchase_timestamp ,"month")) %>% 
+  group_by(mes) %>% 
+  summarise(numero_compras=n()) %>% 
+  ggplot(aes(y=numero_compras, x=mes))+
   geom_point()
 
 # Tipo de plataforma de pago
@@ -59,3 +67,22 @@ payment %>%
   filter(payment_type=="credit_card") %>%  
   ggplot(aes(x=payment_installments)) + 
   geom_bar()
+
+payment %>% 
+  filter(payment_type=="credit_card") %>%
+  filter(payment_installments < 11, payment_installments > 0) %>% 
+  ggplot(aes(x = as.factor(payment_installments), y=payment_value)) + 
+  ylim(c(0, 500))+
+  geom_boxplot()
+
+payment %>% 
+  filter(payment_type=="credit_card") %>%
+  group_by(payment_installments) %>% 
+  summarise(n=n()) %>% 
+  arrange(desc(n))
+
+####
+
+
+
+
