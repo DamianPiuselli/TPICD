@@ -101,7 +101,7 @@ summary(mod1) #R^2 0.555, todas las variables altamente significativas.
 
 envios %>% add_predictions(model=mod1) %>% 
   ggplot(aes(y=pred, x=freight_value))+
-  geom_point()
+  geom_point(alpha=0.1)
 
 mod2 = lm(data=envios, freight_value ~ distancia_envio * product_volume * product_weight_g)
 summary(mod2)
@@ -112,3 +112,67 @@ envios %>% add_predictions(model=mod2) %>%
 
 
 anova(mod1,mod2)
+
+# Customer STATE / SELLER STATE
+
+envios %>% 
+  ggplot(aes(x=customer_state))+
+  geom_bar()
+
+envios %>% 
+  ggplot(aes(x=seller_state))+
+  geom_bar()
+
+## Modelo para envios SP-SP
+envios_sp <- envios %>% 
+  filter(customer_state == "SP", seller_state == "SP")
+
+mod3 = lm(data=envios_sp, freight_value ~ distancia_envio + product_volume + product_weight_g)
+summary(mod3) 
+plot(mod3)
+
+envios_sp %>% add_predictions(model=mod3) %>% 
+  ggplot(aes(y=pred, x=freight_value))+
+  geom_point(alpha=0.1)
+
+## Categorias para envios SP-SP
+
+envios_sp %>% 
+  group_by(product_category_name) %>% 
+  summarise(n=n()) %>% 
+  arrange(-n) %>% 
+  head(10)
+
+ #ejemplo para categoria belleza y salud
+envios_sp_beleza_saude <- envios_sp %>% filter(product_category_name == "beleza_saude")
+mod4 = lm(data=envios_sp_beleza_saude, freight_value ~ distancia_envio + product_volume + product_weight_g)
+summary(mod4)
+plot(mod4)
+
+envios_sp_beleza_saude %>% add_predictions(model=mod4) %>% 
+  ggplot(aes(y=pred, x=freight_value))+
+  geom_point(alpha=0.2)+
+  geom_abline(slope=1, intercept = 0, color="red")+
+  xlim(0,50)+
+  ylim(0,50)
+
+
+mod5 = lm(data=envios_sp_beleza_saude, freight_value ~ distancia_envio * product_volume * product_weight_g)
+summary(mod5)
+
+anova(mod4,mod5)
+
+## Modelo global por categoría
+envios_beleza_saude <- envios %>% filter(product_category_name == "beleza_saude")
+mod6 = lm(data=envios_beleza_saude, freight_value ~ distancia_envio + product_volume + product_weight_g)
+summary(mod6)
+plot(mod6)
+
+envios_beleza_saude %>% add_predictions(model=mod6) %>% 
+  ggplot(aes(y=pred, x=freight_value))+
+  geom_point(alpha=0.2)+
+  geom_abline(slope=1, intercept = 0, color="red")+
+  xlim(0,50)+
+  ylim(0,50)
+
+
