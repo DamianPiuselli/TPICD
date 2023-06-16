@@ -98,7 +98,7 @@ ggplot(data = data)+
 
 ## Consumo de alcohol: 
 
-  ggplot(data = data)+
+ggplot(data = data)+
   geom_point(aes(x = Alcohol_consumption, y = Life_expectancy))
 
 # Parece ser que cuanto más alcohol se consume aumenta la expectativa de vida. Utilicemos la variable (Economy_status_developed):
@@ -145,7 +145,73 @@ ggplot(data = data)+
 #baja de peso debido a enfermedades y todas esas podrian ocasionar un BMI que es indistinguible de alguien sano y peso normal.
 #Seguramente por eso esa distribucion es mas ancha. 
 #Otro variable que confunde es que generalmente para poder tener problemas de obesidad/sobrepeso necesitas que en esa sociedad haya un cierto nivel
-# de recursos economicos, es parecido al alcohol. 
+# de recursos economicos, es parecido al alcohol.
+
+
+## Trabajemos con las restantes variables de salud: 
+
+# Veamos como influye la inmunización contra la hepatitis B: 
+
+ggplot(data = data)+
+  geom_point(aes(x = Hepatitis_B, y = Life_expectancy))
+
+# Vemos una tendencia positiva entre las variables como era esperable
+
+# Veamos como influyen los casos de sarampion detectados cada 1000 habitantes: 
+
+ggplot(data = data)+
+  geom_point(aes(x = Measles , y = Life_expectancy))
+
+# Parece haber una correlación positiva (NO ESPERABLE)
+
+# Veamos como influyen las muertes por HIV/AIDS en niños menores de 4 años por cada 1000 nacimientos: 
+
+ggplot(data = data)+
+  geom_point(aes(x = Incidents_HIV, y = Life_expectancy))
+
+# Aquí si vemos una tendencia negativa esperable
+
+# Podemos analizar si los años de escolarización influyen en las muertes por HIV/AIDS: 
+
+ggplot(data = data)+
+  geom_point(aes(x = Schooling, y = Incidents_HIV))
+
+# Hay una extraña cantidad de muertes por HIV/AIDS para paises donde la escolarización conlleva entre 3 y 10 años
+
+# Podemos filtrar el DF y ver quienes son esos países: 
+
+max(data$Incidents_HIV)
+min(data$Incidents_HIV)
+
+data %>% 
+  filter(Schooling>3 & Schooling<10 & Incidents_HIV>5) %>%
+  select(Country, Incidents_HIV, Schooling) %>% 
+  group_by(Country) %>% 
+  summarise(Incidents_HIV = mean(Incidents_HIV),
+            Schooling = mean(Schooling)) %>% 
+  arrange(desc(Incidents_HIV))
+
+# Parece ser que hay 8 países que generaban la perturbación en el gráfico
+# Para ellos los años de escolarización son bajos y los casos de HIV/AIDS son altos, posiblemente debido a la educación sexual
+# si la hay 
+
+
+# Analizamos la expectativa de vida en relación a la inmunización contra el virus del polio
+
+ggplot(data = data)+
+  geom_point(aes(x = Polio , y = Life_expectancy))
+
+# Hay una clara correlación positiva
+
+# Analizamos la expectativa de vida en relación a la inmunizacion contra el virus de la diphteria
+
+ggplot(data = data)+
+  geom_point(aes(x = Diphtheria, y = Life_expectancy))
+
+# Hay una clara correlación positiva entre ambas variables 
+
+
+#### PARA CONTINUAR CON EL EDA: Afinar los gráficos agregando labels, titulos, subtitulo, paleta de colores etc ...
   
   
   
