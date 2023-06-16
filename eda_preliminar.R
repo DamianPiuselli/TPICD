@@ -56,6 +56,7 @@ data %>%
 #Paises con pocos recursos per capita experimentan un gran cambio en la expectativa de vida al aumentar recursos econom.
 #Distribucion logaritmica. A medida que aumenta GDP la pendiente se plancha, como cabria esperar (si no en los paises ricos serian inmortales)
 #No se si graficarlo o no con gdp en escala log. Los dos graficos tienen su gracia.
+#Esto indica también que para el modelo linear sea prudente usar log(gdp) y no gdp como variable.
 
 ## Estado de desarrollo del país (Economy_status_developed)
 
@@ -139,6 +140,12 @@ ggplot(data = data)+
 
 
 # No es lo que esperariamos chan chan chaaaan
+
+#Damian# El problema con el BMI es que no es un indicador perfecto de salud. Por ejemplo podes tener una dieta de baja calidad, alimentacion infrecuente, o
+#baja de peso debido a enfermedades y todas esas podrian ocasionar un BMI que es indistinguible de alguien sano y peso normal.
+#Seguramente por eso esa distribucion es mas ancha. 
+#Otro variable que confunde es que generalmente para poder tener problemas de obesidad/sobrepeso necesitas que en esa sociedad haya un cierto nivel
+# de recursos economicos, es parecido al alcohol. 
   
   
   
