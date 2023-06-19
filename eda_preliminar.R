@@ -208,28 +208,41 @@ ggplot(data = data)+
 # Veamos como influye la inmunización contra la hepatitis B: 
 
 ggplot(data = data)+
-  geom_point(aes(x = Hepatitis_B, y = Life_expectancy))
+  geom_point(aes(x = Hepatitis_B, y = Life_expectancy), color = '#0093d5')+
+  labs(x = 'Inmunización Hepatitis B [%]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre la inmun. contra Hepatitis B y exp. de vida',
+       subtitle = 'Inmunización en menores de 1 año')
 
 # Vemos una tendencia positiva entre las variables como era esperable
 
 # Veamos como influyen los casos de sarampion detectados cada 1000 habitantes: 
 
 ggplot(data = data)+
-  geom_point(aes(x = Measles , y = Life_expectancy))
+  geom_point(aes(x = Measles , y = Life_expectancy), color = '#0093d5')+
+  labs(x = 'Sarampión [Casos/1000 hab]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre casos de Sarampión y exp. de vida',
+       subtitle = 'Casos de Sarampión cada 1000 habitantes')
 
 # Parece haber una correlación positiva (NO ESPERABLE)
 
 # Veamos como influyen las muertes por HIV/AIDS en niños menores de 4 años por cada 1000 nacimientos: 
 
 ggplot(data = data)+
-  geom_point(aes(x = Incidents_HIV, y = Life_expectancy))
+  geom_point(aes(x = Incidents_HIV, y = Life_expectancy), color = '#0093d5')+
+  labs(x = 'Muertes VIH/SIDA', y = 'Expectativa de vida',
+       title = 'Relación entre muertes por VIH/SIDA y expectativa de vida',
+       subtitle = 'Muertes por VIH/SIDA para menores de 1 año cada 1000 hab.')
+  
 
 # Aquí si vemos una tendencia negativa esperable
 
 # Podemos analizar si los años de escolarización influyen en las muertes por HIV/AIDS: 
 
 ggplot(data = data)+
-  geom_point(aes(x = Schooling, y = Incidents_HIV))
+  geom_point(aes(x = Schooling, y = Incidents_HIV), color = '#0093d5')+
+  labs(x = 'Escolarización [Años]', y = 'Muertes VIH/SIDA',
+       title = 'Relación entre escolarización y muertes por VIH/SIDA',
+       subtitle = 'Muertes por VIH/SIDA para menores de 1 año cada 1000 hab.')
 
 # Hay una extraña cantidad de muertes por HIV/AIDS para paises donde la escolarización conlleva entre 3 y 10 años
 
@@ -254,16 +267,22 @@ data %>%
 # Analizamos la expectativa de vida en relación a la inmunización contra el virus del polio
 
 ggplot(data = data)+
-  geom_point(aes(x = Polio , y = Life_expectancy))
+  geom_point(aes(x = Polio , y = Life_expectancy), color = '#0093d5')+
+  labs(x = 'Inmunización Polio [%]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre la inmun. Polio y la expec. de vida',
+       subtitle = 'Inmunización en menores de 1 año')
 
 # Hay una clara correlación positiva
 
 # Analizamos la expectativa de vida en relación a la inmunizacion contra el virus de la diphteria
 
 ggplot(data = data)+
-  geom_point(aes(x = Diphtheria, y = Life_expectancy))
+  geom_point(aes(x = Diphtheria, y = Life_expectancy), color = '#0093d5')+
+  labs(x = 'Inmunización Diphtheria [%]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre inmun. Diphtheria y expect. de vida',
+       subtitle = 'Inmunización en menores de 1 año')
 
 # Hay una clara correlación positiva entre ambas variables 
 
 
-#### PARA CONTINUAR CON EL EDA: Falta agregar titulo y paleta a un par de graficos, ya ir eligiendo cuales mostrar y chequear si generar otros de interes
+#### PARA CONTINUAR CON EL EDA: Agregar lineas de marco, cambiar color fondo (o no...), ver si se nos ocurre algo más
