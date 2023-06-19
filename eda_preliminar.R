@@ -13,7 +13,8 @@ glimpse(data) #Categoricas -> Economy_status_Developed, Economy_status_Developin
 #set_plot_dimensions(16,10) #Para setear cuando exportemos graficos a powerpoint.
 
 corr <- round(cor(subset(data, select =-c(Economy_status_Developed, Economy_status_Developing, Region, Country, Year))), 3) 
-ggcorrplot(corr,type = "upper", lab = TRUE, outline.color = "black", lab_size = 4, legend.title = "Correlation")+
+ggcorrplot(corr,type = "upper", lab = TRUE, outline.color = "black", lab_size = 4, legend.title = "Correlation",
+           colors = c("blue", "white", "#0093d5"))+
   ggtitle("Correlation Matrix")
 
 
@@ -22,24 +23,46 @@ ggcorrplot(corr,type = "upper", lab = TRUE, outline.color = "black", lab_size = 
 
 data %>% 
   ggplot(aes(x=Life_expectancy))+
-  geom_histogram(aes(y= ..density..), color = "black", fill = "salmon") #Por ahora colores std, despues elegimos paleta de colore
+  geom_histogram(aes(y= ..density..), color = "black", fill = "#0093d5")+
+  labs(x = 'Expectativa de vida [Años]', y = 'Densidad', 
+       title = 'Distribución de la expectativa de vida',
+       subtitle = 'Expresado en densidad')
+       #Por ahora colores std, despues elegimos paleta de colore
 
 ## comparando desarrollado vs sub
 
 data %>% 
   ggplot(aes(x=Life_expectancy, fill=as.factor(Economy_status_Developed)))+
-  geom_density(alpha=0.6)
+  geom_density(alpha=0.6)+
+  labs(x = 'Expectativa de vida [Años]', y = 'Densidad',
+       title = 'Distribución de la expectativa de vida',
+       subtitle = 'Se discrimina por paises desarrollados y no')+
+  guides(fill = guide_legend(title = "Desarrollado"))+
+  scale_fill_hue(labels = c('si','no'))+
+  scale_fill_manual( values = c("#0093d5","blue"))
 
 data %>%   
   ggplot(aes(y=Life_expectancy, fill=as.factor(Economy_status_Developed)))+
-  geom_boxplot()  #Creo que queda mejor un boxplot.
+  geom_boxplot()+
+  labs(y = 'Expectativa de vida [Años]',
+       title = 'Distribución de la expectativa de vida',
+       subtitle = 'Se discrimina por paises desarrollados y no')+
+  guides(fill = guide_legend(title = "Desarrollado"))+
+  scale_fill_hue(labels = c('si','no'))+
+  scale_fill_manual( values = c("#0093d5","blue"))
+  
+  #Creo que queda mejor un boxplot.
 
 
 ## Comparando por Region
 
 data %>% 
   ggplot(aes(x=Life_expectancy, y=as.factor(Region)))+
-  geom_density_ridges2(rel_min_height = 0.001, alpha=0.7, color = "black", fill= "salmon")
+  geom_density_ridges2(rel_min_height = 0.001, alpha=0.7, color = "black", fill= "#0093d5")+
+  labs(x = 'Expectativa de vida [Años]', y = 'Región',
+  title = 'Distribución de la expectativa de vida',
+  subtitle = 'Se discrimina por región')
+  
 #Las distribuciones Bimodales son interesantes, indicaria heterogeneidad entre las distintas regiones
 #America del norte, america del sur distribuciones mas unimodales. Oceania/Africa mas bimodales.
 
@@ -51,8 +74,15 @@ data %>%
 ## GDP per capita
 
 data %>% 
-  ggplot(aes(y=Life_expectancy, x=log(GDP_per_capita), color=as.factor(Economy_status_Developed), alpha = 0.1))+
-  geom_point()  
+  ggplot(aes(y = Life_expectancy, x = log_GDP, color = as.factor(Economy_status_Developed))) +
+  geom_point(alpha = 0.3) +
+  labs(x = 'log(GDP) [U$D]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre el GDP y la expectativa de vida',
+       subtitle = 'Se discrimina por países desarrollados y no') +
+  guides(color = guide_legend(title = "Desarrollado")) +
+  scale_color_hue(labels = c('si', 'no'))+
+  scale_color_manual(values = c('#0093d5', 'blue'))
+  
 #Paises con pocos recursos per capita experimentan un gran cambio en la expectativa de vida al aumentar recursos econom.
 #Distribucion logaritmica. A medida que aumenta GDP la pendiente se plancha, como cabria esperar (si no en los paises ricos serian inmortales)
 #No se si graficarlo o no con gdp en escala log. Los dos graficos tienen su gracia.
@@ -62,8 +92,12 @@ data %>%
 
 data %>% 
   ggplot(aes(x = Life_expectancy))+
-  geom_histogram(color = "black", fill= "salmon")+
-  facet_grid(~ Economy_status_Developed)
+  geom_histogram(color = "black", fill= "#0093d5")+
+  facet_grid(~ Economy_status_Developed, labeller = labeller(Economy_status_Developed = c('0' = "No desarrollado",'1' = "Desarrollado")))+
+  labs(x = 'Expectativa de vida [Años]', y = 'Cantidad',
+       title = 'Distribución de la expectativa de vida',
+       subtitle = 'Se discrimina por paises desarrollados y no')
+  
 
 # Vemos claramente una concentración de esperanzas de vida cercana a los 80 años para países desarrollados, mientras que para los que no
 # lo son la esperanza de vida está más dispersadan (cambiar 0 y 1 por 'en desarrollo' y 'desarrollado')
@@ -85,7 +119,13 @@ data %>%
 # Analicemos como influye la escolarización en la perspectiva de vida: 
 
 ggplot(data = data)+
-  geom_point(aes(x = Schooling, y = Life_expectancy, color = factor(Economy_status_Developed)))
+  geom_point(aes(x = Schooling, y = Life_expectancy, color = factor(Economy_status_Developed)))+
+  labs(x = 'Escolarización [Años]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre los años de escolarización y la exp. de vida',
+       subtitle = 'Se discrimina por paises desarrollados y no')+
+  guides(color = guide_legend(title = "Desarrollado")) +
+  scale_color_hue(labels = c('si', 'no'))+
+  scale_color_manual(values = c('#0093d5', 'blue'))
 
 # Vemos una tendencia positiva entre variables, y ademas como era esperable que los paises desarrollados con aquellos con 
 # una cantidad de años de escolarizacion mayor 
@@ -99,18 +139,29 @@ ggplot(data = data)+
 ## Consumo de alcohol: 
 
 ggplot(data = data)+
-  geom_point(aes(x = Alcohol_consumption, y = Life_expectancy))
+  geom_point(aes(x = Alcohol_consumption, y = Life_expectancy), color = '#0093d5')+
+  labs(x = 'Consumo de alcohol [L/año]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre el consumo de alcohol y la exp. de vida')
 
 # Parece ser que cuanto más alcohol se consume aumenta la expectativa de vida. Utilicemos la variable (Economy_status_developed):
 
 ggplot(data = data)+
-  geom_point(aes(x = Alcohol_consumption, y = Life_expectancy, color = factor(Economy_status_Developed)))
+  geom_point(aes(x = Alcohol_consumption, y = Life_expectancy, color = factor(Economy_status_Developed)))+
+  labs(x = 'Consumo de alcohol [L/año]', y = 'Expectativa de vida [Años]',
+       title = 'Relación entre el consumo de alcohol y la exp. de vida',
+       subtitle = 'Se discrimina por paises desarrollados y no')+
+  guides(color = guide_legend(title = "Desarrollado")) +
+  scale_color_hue(labels = c('si', 'no'))+
+  scale_color_manual(values = c('#0093d5', 'blue'))
+
 
 # Ahora vemos claramente que los países desarrollados son los que consumen más alcohol. Sería interesante analizar por región: 
 
 ggplot(data = data)+
-  geom_histogram(aes(x = Alcohol_consumption))+
-  facet_grid(~ Region)
+  geom_histogram(aes(x = Alcohol_consumption),fill = '#0093d5')+
+  facet_grid(~ Region)+
+  labs(x = 'Consumo de alcohol [L/Año]', y = 'Cantidad',
+  title = 'Distribución del consumo de alcohol por región')
 
 # No suma mucho pero vemos que en Europa es donde se consume más alcohol
 
@@ -136,8 +187,12 @@ data <- data %>%
 # Veamos como se distribuye la expectativa de vida para estas categorias: 
 
 ggplot(data = data)+
-  geom_boxplot(aes(x = estado_nutricional , y = Life_expectancy))
-
+  geom_boxplot(aes(x = estado_nutricional , y = Life_expectancy, fill = estado_nutricional))+
+  labs(x = 'Estado Nutricional', y = 'Expectativa de vida',
+       title = 'Distribución de la expectativa de vida',
+       subtitle = 'Se discrimina por BMI')+
+  guides(fill = guide_legend(title = "Estado Nutricional"))+
+  scale_fill_manual( values = c("lightblue","#0093d5","blue"))
 
 # No es lo que esperariamos chan chan chaaaan
 
@@ -211,8 +266,4 @@ ggplot(data = data)+
 # Hay una clara correlación positiva entre ambas variables 
 
 
-#### PARA CONTINUAR CON EL EDA: Afinar los gráficos agregando labels, titulos, subtitulo, paleta de colores etc ...
-  
-  
-  
-  
+#### PARA CONTINUAR CON EL EDA: Falta agregar titulo y paleta a un par de graficos, ya ir eligiendo cuales mostrar y chequear si generar otros de interes
