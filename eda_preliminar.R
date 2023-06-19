@@ -15,7 +15,12 @@ glimpse(data) #Categoricas -> Economy_status_Developed, Economy_status_Developin
 corr <- round(cor(subset(data, select =-c(Economy_status_Developed, Economy_status_Developing, Region, Country, Year))), 3) 
 ggcorrplot(corr,type = "upper", lab = TRUE, outline.color = "black", lab_size = 4, legend.title = "Correlation",
            colors = c("blue", "white", "#0093d5"))+
-  ggtitle("Correlation Matrix")
+  ggtitle("Correlation Matrix")+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 
 
@@ -26,7 +31,12 @@ data %>%
   geom_histogram(aes(y= ..density..), color = "black", fill = "#0093d5")+
   labs(x = 'Expectativa de vida [Años]', y = 'Densidad', 
        title = 'Distribución de la expectativa de vida',
-       subtitle = 'Expresado en densidad')
+       subtitle = 'Expresado en densidad')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
        #Por ahora colores std, despues elegimos paleta de colore
 
 ## comparando desarrollado vs sub
@@ -39,7 +49,12 @@ data %>%
        subtitle = 'Se discrimina por paises desarrollados y no')+
   guides(fill = guide_legend(title = "Desarrollado"))+
   scale_fill_hue(labels = c('si','no'))+
-  scale_fill_manual( values = c("#0093d5","blue"))
+  scale_fill_manual( values = c("#0093d5","blue"))+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 data %>%   
   ggplot(aes(y=Life_expectancy, fill=as.factor(Economy_status_Developed)))+
@@ -49,7 +64,12 @@ data %>%
        subtitle = 'Se discrimina por paises desarrollados y no')+
   guides(fill = guide_legend(title = "Desarrollado"))+
   scale_fill_hue(labels = c('si','no'))+
-  scale_fill_manual( values = c("#0093d5","blue"))
+  scale_fill_manual( values = c("#0093d5","blue"))+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
   
   #Creo que queda mejor un boxplot.
 
@@ -61,7 +81,12 @@ data %>%
   geom_density_ridges2(rel_min_height = 0.001, alpha=0.7, color = "black", fill= "#0093d5")+
   labs(x = 'Expectativa de vida [Años]', y = 'Región',
   title = 'Distribución de la expectativa de vida',
-  subtitle = 'Se discrimina por región')
+  subtitle = 'Se discrimina por región')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
   
 #Las distribuciones Bimodales son interesantes, indicaria heterogeneidad entre las distintas regiones
 #America del norte, america del sur distribuciones mas unimodales. Oceania/Africa mas bimodales.
@@ -81,7 +106,12 @@ data %>%
        subtitle = 'Se discrimina por países desarrollados y no') +
   guides(color = guide_legend(title = "Desarrollado")) +
   scale_color_hue(labels = c('si', 'no'))+
-  scale_color_manual(values = c('#0093d5', 'blue'))
+  scale_color_manual(values = c('#0093d5', 'blue'))+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
   
 #Paises con pocos recursos per capita experimentan un gran cambio en la expectativa de vida al aumentar recursos econom.
 #Distribucion logaritmica. A medida que aumenta GDP la pendiente se plancha, como cabria esperar (si no en los paises ricos serian inmortales)
@@ -96,7 +126,12 @@ data %>%
   facet_grid(~ Economy_status_Developed, labeller = labeller(Economy_status_Developed = c('0' = "No desarrollado",'1' = "Desarrollado")))+
   labs(x = 'Expectativa de vida [Años]', y = 'Cantidad',
        title = 'Distribución de la expectativa de vida',
-       subtitle = 'Se discrimina por paises desarrollados y no')
+       subtitle = 'Se discrimina por paises desarrollados y no')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
   
 
 # Vemos claramente una concentración de esperanzas de vida cercana a los 80 años para países desarrollados, mientras que para los que no
@@ -114,6 +149,7 @@ data %>%
   geom_col(aes(x = Country, y = promedio, fill = Country))+
   coord_flip()
 
+
 # Al ser casi iguales el gráfico no sirve, pero se pueden utilizar los valores como KPI's en las diapos 
 
 # Analicemos como influye la escolarización en la perspectiva de vida: 
@@ -125,7 +161,12 @@ ggplot(data = data)+
        subtitle = 'Se discrimina por paises desarrollados y no')+
   guides(color = guide_legend(title = "Desarrollado")) +
   scale_color_hue(labels = c('si', 'no'))+
-  scale_color_manual(values = c('#0093d5', 'blue'))
+  scale_color_manual(values = c('#0093d5', 'blue'))+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 # Vemos una tendencia positiva entre variables, y ademas como era esperable que los paises desarrollados con aquellos con 
 # una cantidad de años de escolarizacion mayor 
@@ -141,7 +182,12 @@ ggplot(data = data)+
 ggplot(data = data)+
   geom_point(aes(x = Alcohol_consumption, y = Life_expectancy), color = '#0093d5')+
   labs(x = 'Consumo de alcohol [L/año]', y = 'Expectativa de vida [Años]',
-       title = 'Relación entre el consumo de alcohol y la exp. de vida')
+       title = 'Relación entre el consumo de alcohol y la exp. de vida')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 # Parece ser que cuanto más alcohol se consume aumenta la expectativa de vida. Utilicemos la variable (Economy_status_developed):
 
@@ -152,7 +198,12 @@ ggplot(data = data)+
        subtitle = 'Se discrimina por paises desarrollados y no')+
   guides(color = guide_legend(title = "Desarrollado")) +
   scale_color_hue(labels = c('si', 'no'))+
-  scale_color_manual(values = c('#0093d5', 'blue'))
+  scale_color_manual(values = c('#0093d5', 'blue'))+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 
 # Ahora vemos claramente que los países desarrollados son los que consumen más alcohol. Sería interesante analizar por región: 
@@ -162,6 +213,7 @@ ggplot(data = data)+
   facet_grid(~ Region)+
   labs(x = 'Consumo de alcohol [L/Año]', y = 'Cantidad',
   title = 'Distribución del consumo de alcohol por región')
+
 
 # No suma mucho pero vemos que en Europa es donde se consume más alcohol
 
@@ -192,7 +244,12 @@ ggplot(data = data)+
        title = 'Distribución de la expectativa de vida',
        subtitle = 'Se discrimina por BMI')+
   guides(fill = guide_legend(title = "Estado Nutricional"))+
-  scale_fill_manual( values = c("lightblue","#0093d5","blue"))
+  scale_fill_manual( values = c("lightblue","#0093d5","blue"))+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 # No es lo que esperariamos chan chan chaaaan
 
@@ -211,7 +268,12 @@ ggplot(data = data)+
   geom_point(aes(x = Hepatitis_B, y = Life_expectancy), color = '#0093d5')+
   labs(x = 'Inmunización Hepatitis B [%]', y = 'Expectativa de vida [Años]',
        title = 'Relación entre la inmun. contra Hepatitis B y exp. de vida',
-       subtitle = 'Inmunización en menores de 1 año')
+       subtitle = 'Inmunización en menores de 1 año')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 # Vemos una tendencia positiva entre las variables como era esperable
 
@@ -221,7 +283,12 @@ ggplot(data = data)+
   geom_point(aes(x = Measles , y = Life_expectancy), color = '#0093d5')+
   labs(x = 'Sarampión [Casos/1000 hab]', y = 'Expectativa de vida [Años]',
        title = 'Relación entre casos de Sarampión y exp. de vida',
-       subtitle = 'Casos de Sarampión cada 1000 habitantes')
+       subtitle = 'Casos de Sarampión cada 1000 habitantes')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 # Parece haber una correlación positiva (NO ESPERABLE)
 
@@ -231,7 +298,12 @@ ggplot(data = data)+
   geom_point(aes(x = Incidents_HIV, y = Life_expectancy), color = '#0093d5')+
   labs(x = 'Muertes VIH/SIDA', y = 'Expectativa de vida',
        title = 'Relación entre muertes por VIH/SIDA y expectativa de vida',
-       subtitle = 'Muertes por VIH/SIDA para menores de 1 año cada 1000 hab.')
+       subtitle = 'Muertes por VIH/SIDA para menores de 1 año cada 1000 hab.')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
   
 
 # Aquí si vemos una tendencia negativa esperable
@@ -242,7 +314,12 @@ ggplot(data = data)+
   geom_point(aes(x = Schooling, y = Incidents_HIV), color = '#0093d5')+
   labs(x = 'Escolarización [Años]', y = 'Muertes VIH/SIDA',
        title = 'Relación entre escolarización y muertes por VIH/SIDA',
-       subtitle = 'Muertes por VIH/SIDA para menores de 1 año cada 1000 hab.')
+       subtitle = 'Muertes por VIH/SIDA para menores de 1 año cada 1000 hab.')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 # Hay una extraña cantidad de muertes por HIV/AIDS para paises donde la escolarización conlleva entre 3 y 10 años
 
@@ -257,7 +334,8 @@ data %>%
   group_by(Country) %>% 
   summarise(Incidents_HIV = mean(Incidents_HIV),
             Schooling = mean(Schooling)) %>% 
-  arrange(desc(Incidents_HIV))
+  arrange(desc(Incidents_HIV))+
+  
 
 # Parece ser que hay 8 países que generaban la perturbación en el gráfico
 # Para ellos los años de escolarización son bajos y los casos de HIV/AIDS son altos, posiblemente debido a la educación sexual
@@ -270,7 +348,12 @@ ggplot(data = data)+
   geom_point(aes(x = Polio , y = Life_expectancy), color = '#0093d5')+
   labs(x = 'Inmunización Polio [%]', y = 'Expectativa de vida [Años]',
        title = 'Relación entre la inmun. Polio y la expec. de vida',
-       subtitle = 'Inmunización en menores de 1 año')
+       subtitle = 'Inmunización en menores de 1 año')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
+
 
 # Hay una clara correlación positiva
 
@@ -280,7 +363,11 @@ ggplot(data = data)+
   geom_point(aes(x = Diphtheria, y = Life_expectancy), color = '#0093d5')+
   labs(x = 'Inmunización Diphtheria [%]', y = 'Expectativa de vida [Años]',
        title = 'Relación entre inmun. Diphtheria y expect. de vida',
-       subtitle = 'Inmunización en menores de 1 año')
+       subtitle = 'Inmunización en menores de 1 año')+
+  theme_bw() + 
+  theme(panel.border = element_rect(fill = "transparent",
+                                    color = 4,          
+                                    linewidth = 2))       
 
 # Hay una clara correlación positiva entre ambas variables 
 
